@@ -3,10 +3,10 @@ layout: page
 ---
 {% raw %}
 
-<h2>Cadastrar filmes</h2>
-<hr>
-
 <div id="app">
+  <h1>Olá! {{user.given_name}}</h1>
+  <h2>Cadastrar filmes</h2>
+  <hr>
   <form @submit="checkForm">
     <div class="form-group">
       <label for="exampleInputEmail1">Nome</label>
@@ -19,16 +19,20 @@ layout: page
     <button type="submit" class="btn btn-primary">Salvar</button>
   </form>
 </div>
+{% endraw %}
 
+<script src="https://cdn.auth0.com/js/auth0-spa-js/1.20/auth0-spa-js.production.js"></script>
 <script type="module">
   import { createApp } from 'vue'
+
   createApp({
     data() {
       return {
         message: 'Hello Vue!',
         count: 0,
         name: '',
-        rate: null
+        rate: null,
+        user: JSON.parse(localStorage.getItem('user'))
       }
     },
     methods: {
@@ -60,4 +64,3 @@ layout: page
     console.log(data)
   })
 </script> -->
-{% endraw %}

@@ -1,0 +1,40 @@
+---
+layout: page
+---
+
+<h3>Aguarde enquanto validamos a sua identidade</h3>
+
+<script src="https://cdn.auth0.com/js/auth0-spa-js/1.20/auth0-spa-js.production.js"></script>
+<script>
+  function checkAuth() {
+    let auth0 = null;
+    const domain = "{{site.domain | json}}"
+    const clientId = "{{site.clientid | json}}"
+
+    const configureClient = async () => {
+      auth0 = await createAuth0Client({
+        domain: domain,
+        client_id: clientId
+      });
+    };
+    const verify = async () => {
+      await configureClient()
+      const isAuthenticated = await auth0.isAuthenticated();
+      if (isAuthenticated) {
+        const user = JSON.stringify(await auth0.getUser())
+        localStorage.setItem('user', user);
+        window.location.href = "/";
+      } else {
+        const query = window.location.search;
+        if (query.includes("code=") && query.includes("state=")) {
+          await auth0.handleRedirectCallback();
+          const user = JSON.stringify(await auth0.getUser())
+          localStorage.setItem('user', user);
+          window.location.href = "/";
+        }
+      }
+    }
+    verify();
+  }
+  checkAuth();
+</script>

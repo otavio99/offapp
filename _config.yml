@@ -5,6 +5,9 @@
 
 # --- Required options --- #
 
+domain: dev-qy-iakti.us.auth0.com
+clientid: eEBy63jCkRcKBsKpAfOWit5hg8JgZzpG
+
 # Name of website
 title: ONSS
 
