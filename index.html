@@ -1,5 +1,63 @@
 ---
-layout: home
-title: ONSS Blog
-subtitle: Tudo e mais um pouco sobre desenvolvimento de software e trabalho remoto
+layout: page
 ---
+{% raw %}
+
+<h2>Cadastrar filmes</h2>
+<hr>
+
+<div id="app">
+  <form @submit="checkForm">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Nome</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" v-model="name">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Avaliação (0-10)</label>
+      <input type="number" class="form-control" id="exampleInputPassword1" placeholder="" v-model="rate">
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+  </form>
+</div>
+
+<script type="module">
+  import { createApp } from 'vue'
+  createApp({
+    data() {
+      return {
+        message: 'Hello Vue!',
+        count: 0,
+        name: '',
+        rate: null
+      }
+    },
+    methods: {
+      increment,
+      checkForm
+    }
+  }).mount('#app')
+</script>
+
+<script>
+  function increment() {
+    this.count++
+  }
+</script>
+
+<script>
+  function checkForm (e) {
+    console.log(this.name, this.rate)
+    e.preventDefault();
+  }
+</script>
+
+
+<!-- <script type="text/javascript">
+  fetch('https://another-hello.onss.workers.dev/')
+  .then(response => {
+    return response.text()
+  }).then(data => {
+    console.log(data)
+  })
+</script> -->
+{% endraw %}
