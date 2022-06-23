@@ -49,7 +49,7 @@ label {
 
   const getredirecturl = (env) => {
     if (env === 'prod') {
-      return window.location.origin + "/{{site.basepathurl}}/" + "/callback/";
+      return window.location.origin + "/{{site.basepathurl}}/" + "callback/";
     } else {
       return window.location.origin + "/callback/";
     }
