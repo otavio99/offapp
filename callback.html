@@ -17,20 +17,36 @@ layout: page
         client_id: clientId
       });
     };
+
+    const checkenv = () => {
+      if (window.location.origin.includes("localhost")) {
+        return "dev";
+      } else {
+        return "prod";
+      }
+    };
+
+    const getredirecturl = (env) => {
+      if (env === 'prod') {
+        return "/{{site.basepathurl}}/";
+      } else {
+        return "/";
+      }
+    }
     const verify = async () => {
       await configureClient()
       const isAuthenticated = await auth0.isAuthenticated();
       if (isAuthenticated) {
         const user = JSON.stringify(await auth0.getUser())
         localStorage.setItem('user', user);
-        window.location.href = "/";
+        window.location.href = getredirecturl(checkenv());
       } else {
         const query = window.location.search;
         if (query.includes("code=") && query.includes("state=")) {
           await auth0.handleRedirectCallback();
           const user = JSON.stringify(await auth0.getUser())
           localStorage.setItem('user', user);
-          window.location.href = "/";
+          window.location.href = getredirecturl(checkenv());
         }
       }
     }
