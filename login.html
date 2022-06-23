@@ -39,9 +39,25 @@ label {
     document.getElementById("btn-login").disabled = isAuthenticated;
   };
 
+  const checkenv = () => {
+    if (window.location.origin.includes("localhost")) {
+      return "dev";
+    } else {
+      return "prod";
+    }
+  };
+
+  const getredirecturl = (env) => {
+    if (env === 'prod') {
+      return window.location.origin + "/{{basepathurl}}/" + "/callback/";
+    } else {
+      return window.location.origin + "/callback/";
+    }
+  }
+
   const login = async () => {
     await auth0.loginWithRedirect({
-      redirect_uri: window.location.origin + "/callbackroute/"
+      redirect_uri: getredirecturl()
     });
   };
 
@@ -51,6 +67,7 @@ label {
     });
   };
   window.onload = async () => {
+    console.log(checkenv())
     await configureClient();
     updateUI();
 

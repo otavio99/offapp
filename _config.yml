@@ -8,6 +8,8 @@
 domain: dev-qy-iakti.us.auth0.com
 clientid: eEBy63jCkRcKBsKpAfOWit5hg8JgZzpG
 
+basepathurl: 'offapp'
+
 # Name of website
 title: ONSS
 
