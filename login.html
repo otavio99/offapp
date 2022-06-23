@@ -57,7 +57,7 @@ label {
 
   const login = async () => {
     await auth0.loginWithRedirect({
-      redirect_uri: getredirecturl()
+      redirect_uri: getredirecturl(checkenv())
     });
   };
 
@@ -67,12 +67,11 @@ label {
     });
   };
   window.onload = async () => {
-    console.log(checkenv())
     await configureClient();
     updateUI();
 
     const isAuthenticated = await auth0.isAuthenticated();
-
+    console.log(auth0)
     if (isAuthenticated) {
       const usuario = JSON.stringify(
         await auth0.getUser()
