@@ -1,5 +1,3 @@
-import meaning from "meaning-of-life";
-
 addEventListener("fetch", event => {
   event.respondWith(handleRequest(event.request))
 })
@@ -7,7 +5,21 @@ addEventListener("fetch", event => {
 async function handleRequest(request) {
   if (request.method === "OPTIONS") {
     return handleOptions(request)
-  } else if (request.method === "GET") {
+  }
+
+  const { authenticate } = require("./../auth.ts");
+  const res = await authenticate(request);
+  if (!res) {
+    return new Response(null, {
+      status: 403,
+      statusText: "Forbidden, user does not have permission",
+      headers: {
+        ...corsHeaders,
+      }
+    })
+  }
+
+  if (request.method === "GET") {
     return handleGet(request)
   } else {
     return new Response(null, {
@@ -42,19 +54,7 @@ function handleOptions(request) {
 }
 
 async function handleGet(request) {
-  const token = request.headers.get('Authorization');
-  const { jwtVerify } = require('jose');
-  const { createRemoteJWKSet } = require('jose');
-  const keypromise = await fetch("https://dev-qy-iakti.us.auth0.com/.well-known/jwks.json");
-  const jwks = createRemoteJWKSet(new URL('https://dev-qy-iakti.us.auth0.com/.well-known/jwks.json'));
-  const { payload, protectedHeader } = await jwtVerify(token.replaceAll('"',''), jwks, {
-    iss: 'dev-qy-iakti.us.auth0.com/',
-    aud: 'eEBy63jCkRcKBsKpAfOWit5hg8JgZzpG'
-  })
-
-  console.log(payload.nickname)
-
-  return new Response(JSON.stringify(meaning), {
+  return new Response(JSON.stringify("42"), {
     headers: {
       ...corsHeaders,
     }
