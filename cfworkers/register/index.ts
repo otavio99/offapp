@@ -1,4 +1,5 @@
 addEventListener("fetch", (event) => {
+  console.log(MY_NAME)
   event.respondWith(handleRequest(event.request))
 })
 
