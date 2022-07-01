@@ -39,6 +39,10 @@ layout: page
       if (isAuthenticated) {
         const user = JSON.stringify(await auth0.getUser())
         localStorage.setItem('user', user);
+
+        const token = await auth0.getTokenSilently({detailedResponse: true});
+        localStorage.setItem('auth_token', JSON.stringify(token));
+
         window.location.href = getredirecturl(checkenv());
       } else {
         const query = window.location.search;
@@ -46,6 +50,10 @@ layout: page
           await auth0.handleRedirectCallback();
           const user = JSON.stringify(await auth0.getUser())
           localStorage.setItem('user', user);
+
+          const token = await auth0.getTokenSilently({detailedResponse: true});
+          localStorage.setItem('auth_token', JSON.stringify(token));
+
           window.location.href = getredirecturl(checkenv());
         }
       }

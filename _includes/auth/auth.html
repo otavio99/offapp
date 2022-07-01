@@ -1,0 +1,122 @@
+<script src="https://cdn.auth0.com/js/auth0-spa-js/1.20/auth0-spa-js.production.js"></script>
+
+
+<!-- <script>
+  let auth0 = null;
+  const domain = "{{site.domain | json}}"
+  const clientId = "{{site.clientid | json}}"
+
+  const configureClient = async () => {
+    auth0 = await createAuth0Client({
+      domain: domain,
+      client_id: clientId
+    });
+  };
+
+  const updateUI = async () => {
+    const isAuthenticated = await auth0.isAuthenticated();
+    document.getElementById("btn-logout").disabled = !isAuthenticated;
+    document.getElementById("btn-login").disabled = isAuthenticated;
+  };
+
+  const checkenv = () => {
+    if (window.location.origin.includes("localhost")) {
+      return "dev";
+    } else {
+      return "prod";
+    }
+  };
+
+  const getredirecturl = (env) => {
+    if (env === 'prod') {
+      return window.location.origin + "/{{site.basepathurl}}/" + "callback/";
+    } else {
+      return window.location.origin + "/callback/";
+    }
+  }
+
+  const login = async () => {
+    await auth0.loginWithRedirect({
+      redirect_uri: getredirecturl(checkenv())
+    });
+  };
+
+  const logout = () => {
+    auth0.logout({
+      returnTo: window.location.origin
+    });
+  };
+  window.onload = async () => {
+    try {
+      await configureClient();
+      updateUI();
+      const isAuthenticated = await auth0.isAuthenticated();
+      if (isAuthenticated) {
+        const usuario = JSON.stringify(
+          await auth0.getUser()
+        );
+        console.log(usuario)
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+</script> -->
+
+<script type="text/javascript">
+  const checkenv = () => {
+    if (window.location.origin.includes("localhost")) {
+      return "dev";
+    } else {
+      return "prod";
+    }
+  };
+
+  const getredirecturl = (env) => {
+    if (env === 'prod') {
+      return window.location.origin + "/{{site.basepathurl}}/" + "callback/";
+    } else {
+      return window.location.origin + "/callback/";
+    }
+  }
+
+  const login = async () => {
+    await auth0.loginWithRedirect({
+      redirect_uri: getredirecturl(checkenv())
+    });
+  };
+
+  const logout = () => {
+    auth0.logout({
+      returnTo: window.location.origin
+    });
+  };
+
+  const domain = "{{site.domain | json}}"
+  const clientId = "{{site.clientid | json}}"
+  const auth0 = new Auth0Client({
+    domain: domain,
+    client_id: clientId,
+    redirect_uri: getredirecturl(checkenv())
+  });
+
+  const updateUI = async (isAuthenticated) => {
+    document.getElementById("btn-logout").disabled = !isAuthenticated;
+    document.getElementById("btn-login").disabled = isAuthenticated;
+  };
+
+  const checkAuth = async () => {
+    try {
+      await auth0.getTokenSilently({detailedResponse: true})
+      window.location.href = "/index";
+    } catch (error) {
+      const isAuthenticated = await auth0.isAuthenticated();
+      updateUI(isAuthenticated);
+    }
+
+  }
+
+  checkAuth();
+
+</script>
