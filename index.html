@@ -50,8 +50,23 @@ layout: page
 
 <script>
   function checkForm (e) {
-    console.log(this.name, this.rate)
     e.preventDefault();
+    const data = {
+      'name': this.name,
+      'rate': this.rate
+    }
+
+    fetch('http://127.0.0.1:8787',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
+    },
+    body: JSON.stringify(data)})
+      .then(response => response.json())
+      .then(data => console.log(data));
+
   }
 </script>
 

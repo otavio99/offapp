@@ -1,4 +1,4 @@
-addEventListener("fetch", event => {
+addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request))
 })
 
@@ -21,6 +21,8 @@ async function handleRequest(request) {
 
   if (request.method === "GET") {
     return handleGet(request)
+  } else if (request.method === "POST") {
+    return handlePost(request)
   } else {
     return new Response(null, {
       status: 405,
@@ -32,7 +34,7 @@ async function handleRequest(request) {
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, HEAD, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type,Authorization",
+  "Access-Control-Allow-Headers": "Content-Type,Authorization,Access-Control-Allow-Origin",
 }
 
 function handleOptions(request) {
@@ -55,6 +57,17 @@ function handleOptions(request) {
 
 async function handleGet(request) {
   return new Response(JSON.stringify("42"), {
+    headers: {
+      ...corsHeaders,
+    }
+  })
+}
+
+async function handlePost(request) {
+  const body = await request.json();
+
+  // await TESTKV.put('name', body['name']);
+  return new Response(JSON.stringify(body), {
     headers: {
       ...corsHeaders,
     }

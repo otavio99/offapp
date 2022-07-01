@@ -6,3 +6,10 @@ usage_model = ''
 compatibility_flags = []
 workers_dev = true
 compatibility_date = "2022-06-23"
+[vars]
+MY_NAME = "example_dev_token"
+[env.dev]
+MY_NAME = "OTAVIO"
+kv_namespaces = [
+         { binding = "TESTKV", preview_id = "29fb42e8b5fe42fdbeeb116cbddc9897" }
+]
