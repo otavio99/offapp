@@ -2,13 +2,36 @@
 layout: page
 permalink: /list
 ---
+{% raw %}
+  <div id="app">
+    <h2>Lista de filmes</h2>
+    <hr>
+    <ul class="" v-for="movie in movies">
+      <li class="">
+        {{ movie.name }} - {{movie.rate}}/10 |
+        <a href="#">Editar</a> |
+        <a href="#">Atualizar</a> |
+        <a href="#">Excluir</a> |
+      </li>
+    </ul>
+  </div>
+{% endraw %}
 
-<h2>Lista de filmes</h2>
-<hr>
-<ul class="list-group list-group-flush">
-  <li class="list-group-item">Cras justo odio</li>
-  <li class="list-group-item">Dapibus ac facilisis in</li>
-  <li class="list-group-item">Morbi leo risus</li>
-  <li class="list-group-item">Porta ac consectetur ac</li>
-  <li class="list-group-item">Vestibulum at eros</li>
-</ul>
+
+<script type="module">
+  import { createApp } from 'vue';
+
+  createApp({
+    data() {
+      return {
+        movies: []
+      }
+    },
+    methods: {
+    },
+    created () {
+      this.movies.push(...JSON.parse(localStorage.getItem('movies')))
+      console.log(this.movies[0])
+    }
+  }).mount('#app')
+</script>

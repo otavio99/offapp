@@ -8,7 +8,7 @@ permalink: /register
   <h1>Olá! {{user.given_name}}</h1>
   <h2>Cadastrar filmes</h2>
   <hr>
-  <form @submit="checkForm">
+  <form ref="moviesform" @submit="checkForm">
     <div class="form-group">
       <label for="exampleInputEmail1">Nome</label>
       <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" v-model="name">
@@ -23,12 +23,11 @@ permalink: /register
 {% endraw %}
 
 <script type="module">
-  import { createApp } from 'vue'
+  import { createApp } from 'vue';
 
   createApp({
     data() {
       return {
-        message: 'Hello Vue!',
         count: 0,
         name: '',
         rate: null,
@@ -51,21 +50,35 @@ permalink: /register
 <script>
   function checkForm (e) {
     e.preventDefault();
+    let movies = []
     const data = {
       'name': this.name,
       'rate': this.rate
     }
 
-    fetch(getUrl(),{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
-    },
-    body: JSON.stringify(data)})
-      .then(response => response.json())
-      .then(data => console.log(data));
+    const storage = JSON.parse(localStorage.getItem('movies'));
+
+    if (storage) {
+      movies = [...storage]
+    }
+
+    movies.push(data)
+
+    localStorage.setItem('movies', JSON.stringify(movies));
+
+    this.$refs.moviesform.reset();
+
+    // fetch(getUrl(),{
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
+    //   },
+    //   body: JSON.stringify(data)
+    // })
+    //   .then(response => response.json())
+    //   .then(data => console.log(data));
 
   }
 </script>
