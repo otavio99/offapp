@@ -1,0 +1,19 @@
+{
+  "name": "register",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cfworker/jwt": "^4.0.2",
+    "jose": "^4.8.1",
+    "meaning-of-life": "^1.0.0"
+  },
+  "devDependencies": {
+    "@tsndr/cloudflare-worker-jwt": "^1.4.4"
+  }
+}

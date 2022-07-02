@@ -1,14 +1,4 @@
-<script src="https://cdn.auth0.com/js/auth0-spa-js/1.20/auth0-spa-js.production.js"></script>
-
 <script type="text/javascript">
-  const checkenv = () => {
-    if (window.location.origin.includes("localhost")) {
-      return "dev";
-    } else {
-      return "prod";
-    }
-  };
-
   const getredirecturl = (env) => {
     if (env === 'prod') {
       return window.location.origin + "/{{site.basepathurl}}/" + "callback/";
@@ -20,12 +10,6 @@
   const login = async () => {
     await auth0.loginWithRedirect({
       redirect_uri: getredirecturl(checkenv())
-    });
-  };
-
-  const logout = () => {
-    auth0.logout({
-      returnTo: window.location.origin
     });
   };
 

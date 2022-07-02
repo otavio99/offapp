@@ -1,14 +1,16 @@
-<script src="https://cdn.auth0.com/js/auth0-spa-js/1.20/auth0-spa-js.production.js"></script>
+<script type="text/javascript">
+  const checkExp = (ts) => {
+    var today = new Date().setHours(0, 0, 0, 0);
+
+    if(today < (ts * 1000)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
 
 <script type="text/javascript">
-  const checkenv = () => {
-    if (window.location.origin.includes("localhost")) {
-      return "dev";
-    } else {
-      return "prod";
-    }
-  };
-
   const getredirecturl = (env) => {
     if (env === 'prod') {
       return window.location.origin + "/{{site.basepathurl}}/" + "callback/";
@@ -27,7 +29,12 @@
 
   const run = async () => {
     try {
-      await auth0.getTokenSilently({detailedResponse: true});
+      const token = await auth0.getTokenSilently({detailedResponse: true});
+
+      if (!checkExp(jwt_decode(token.id_token).exp)) {
+        logout();
+      }
+
     } catch (error) {
       window.location.href = "/login";
     }

@@ -1,0 +1,73 @@
+---
+layout: page
+permalink: /register
+---
+{% raw %}
+
+<div id="app">
+  <h1>Olá! {{user.given_name}}</h1>
+  <h2>Cadastrar filmes</h2>
+  <hr>
+  <form @submit="checkForm">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Nome</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" v-model="name">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Avaliação (0-10)</label>
+      <input type="number" class="form-control" id="exampleInputPassword1" placeholder="" v-model="rate">
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+  </form>
+</div>
+{% endraw %}
+
+<script type="module">
+  import { createApp } from 'vue'
+
+  createApp({
+    data() {
+      return {
+        message: 'Hello Vue!',
+        count: 0,
+        name: '',
+        rate: null,
+        user: JSON.parse(localStorage.getItem('user'))
+      }
+    },
+    methods: {
+      increment,
+      checkForm
+    }
+  }).mount('#app')
+</script>
+
+<script>
+  function increment() {
+    this.count++
+  }
+</script>
+
+<script>
+  function checkForm (e) {
+    e.preventDefault();
+    const data = {
+      'name': this.name,
+      'rate': this.rate
+    }
+
+    fetch(getUrl(),{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
+    },
+    body: JSON.stringify(data)})
+      .then(response => response.json())
+      .then(data => console.log(data));
+
+  }
+</script>
+
+{% include auth/auth_check.html %}

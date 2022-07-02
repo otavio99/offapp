@@ -2,73 +2,15 @@
 layout: page
 permalink: /
 ---
-{% raw %}
 
-<div id="app">
+<div>
   <h1>Olá! {{user.given_name}}</h1>
-  <h2>Cadastrar filmes</h2>
-  <hr>
-  <form @submit="checkForm">
-    <div class="form-group">
-      <label for="exampleInputEmail1">Nome</label>
-      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" v-model="name">
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Avaliação (0-10)</label>
-      <input type="number" class="form-control" id="exampleInputPassword1" placeholder="" v-model="rate">
-    </div>
-    <button type="submit" class="btn btn-primary">Salvar</button>
-  </form>
 </div>
-{% endraw %}
 
-<script src="https://cdn.auth0.com/js/auth0-spa-js/1.20/auth0-spa-js.production.js"></script>
-<script type="module">
-  import { createApp } from 'vue'
+<a href="/register">Registrar</a> /
+<a href="/list">Listar</a>
 
-  createApp({
-    data() {
-      return {
-        message: 'Hello Vue!',
-        count: 0,
-        name: '',
-        rate: null,
-        user: JSON.parse(localStorage.getItem('user'))
-      }
-    },
-    methods: {
-      increment,
-      checkForm
-    }
-  }).mount('#app')
-</script>
-
-<script>
-  function increment() {
-    this.count++
-  }
-</script>
-
-<script>
-  function checkForm (e) {
-    e.preventDefault();
-    const data = {
-      'name': this.name,
-      'rate': this.rate
-    }
-
-    fetch('http://127.0.0.1:8787',{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
-    },
-    body: JSON.stringify(data)})
-      .then(response => response.json())
-      .then(data => console.log(data));
-
-  }
+<script type="text/javascript">
 </script>
 
 {% include auth/auth_check.html %}

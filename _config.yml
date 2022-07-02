@@ -8,6 +8,9 @@
 domain: dev-qy-iakti.us.auth0.com
 clientid: eEBy63jCkRcKBsKpAfOWit5hg8JgZzpG
 
+dev-url: http://127.0.0.1:8787
+prod-url:
+
 basepathurl: 'offapp'
 
 # Name of website
@@ -19,7 +22,7 @@ author: Otavio Nathanael
 # --- List of links in the navigation bar --- #
 
 navbar-links:
-  cadastrar: "index"
+  Registrar: "register"
   Listar: 'list'
   Sobre: "aboutme"
 # --- Logo --- #
