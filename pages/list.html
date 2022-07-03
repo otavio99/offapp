@@ -9,9 +9,8 @@ permalink: /list
     <ul class="" v-for="movie in movies">
       <li class="">
         {{ movie.name }} - {{movie.rate}}/10 |
-        <a href="#">Editar</a> |
-        <a href="#">Atualizar</a> |
-        <a :id=movie.id href="#" @click="deleteMovie">Excluir</a> |
+        <a :data-id=movie.id href="#" @click="view">Ver</a> |
+        <a :data-id=movie.id href="#" @click="deleteMovie">Excluir</a> |
       </li>
     </ul>
   </div>
@@ -30,8 +29,12 @@ permalink: /list
     methods: {
       deleteMovie (elm) {
         elm.preventDefault();
-        this.movies = [...this.movies.filter(movie => movie.id !== elm.target.id)]
+        this.movies = [...this.movies.filter(movie => movie.id !== elm.target.dataset.id)]
         localStorage.setItem('movies', JSON.stringify(this.movies));
+      },
+      view (elm) {
+        elm.preventDefault();
+        window.location = '/view?id=' + elm.target.dataset.id;
       }
     },
     created () {

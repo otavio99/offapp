@@ -1,12 +1,11 @@
 ---
 layout: page
-permalink: /register
+permalink: /view
 ---
 {% raw %}
 
 <div id="app">
-  <h1>Olá! {{user.given_name}}</h1>
-  <h2>Cadastrar filmes</h2>
+  <h2>Filme</h2>
   <hr>
   <form ref="moviesform" @submit="checkForm">
     <div class="form-group">
@@ -17,25 +16,51 @@ permalink: /register
       <label for="exampleInputPassword1">Avaliação (0-10)</label>
       <input type="number" class="form-control" id="exampleInputPassword1" placeholder="" v-model="rate">
     </div>
-    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="submit" class="btn btn-primary">Atualizar</button>&nbsp;
+    <button type="button" class="btn btn-danger" @click="deleteMovie">Excluir</button>&nbsp;
+    <button type="button" class="btn btn-secondary" @click="back">Voltar</button>
   </form>
 </div>
 {% endraw %}
 
 <script type="module">
-  import { createApp } from 'vue';
+  import { createApp, computed } from 'vue';
 
   createApp({
     data() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const id = urlParams.get('id');
+      let movies = JSON.parse(localStorage.getItem('movies'));
+      const movie = movies.filter(movie => movie.id === id)[0];
+
       return {
-        count: 0,
-        name: '',
-        rate: null,
+        id: id,
+        name: movie.name,
+        rate: movie.rate,
         user: JSON.parse(localStorage.getItem('user'))
       }
     },
     methods: {
-      checkForm
+      checkForm,
+      back () {
+        window.location = '/list';
+      },
+      deleteMovie (elm) {
+        elm.preventDefault();
+        
+        const result = confirm("Tem certeza?")
+
+        if (!result) {
+          return;
+        }
+
+        const storage = JSON.parse(localStorage.getItem('movies'));
+        let movies = [];
+        movies = [...storage.filter(movie => movie.id !== this.id)]
+        localStorage.setItem('movies', JSON.stringify(movies));
+        window.location = '/list';
+      }
     }
   }).mount('#app')
 </script>
@@ -43,9 +68,15 @@ permalink: /register
 <script>
   function checkForm (e) {
     e.preventDefault();
+    const result = confirm("Tem certeza?")
+
+    if (!result) {
+      return;
+    }
+
     let movies = []
     const data = {
-      'id': uuidv4(),
+      'id': this.id,
       'name': this.name,
       'rate': this.rate
     }
@@ -53,14 +84,14 @@ permalink: /register
     const storage = JSON.parse(localStorage.getItem('movies'));
 
     if (storage) {
-      movies = [...storage]
+      movies = [...storage.filter(movie => movie.id !== this.id)]
     }
 
     movies.push(data)
 
     localStorage.setItem('movies', JSON.stringify(movies));
 
-    this.$refs.moviesform.reset();
+    window.location = "/list"
 
     // fetch(getUrl(),{
     //   method: 'POST',
