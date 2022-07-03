@@ -28,10 +28,25 @@
   });
 
   const run = async () => {
+
     try {
       const token = await auth0.getTokenSilently({detailedResponse: true});
 
       if (!checkExp(jwt_decode(token.id_token).exp)) {
+        logout();
+      }
+
+      const res = await fetch(getUrl(), {
+        method: 'HEAD',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
+        }
+      })
+
+      if (res.status !== 200) {
+        alert("Você não tem permissão para acessar essa aplicação");
         logout();
       }
 

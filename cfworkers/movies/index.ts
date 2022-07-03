@@ -19,10 +19,17 @@ async function handleRequest(request) {
     })
   }
 
-  if (request.method === "GET") {
+  if (request.method === "GET" ) {
     return handleGet(request)
   } else if (request.method === "POST") {
     return handlePost(request)
+  } else if (request.method === "HEAD") {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        ...corsHeaders,
+      }
+    })
   } else {
     return new Response(null, {
       status: 405,
