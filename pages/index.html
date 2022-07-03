@@ -8,9 +8,23 @@ permalink: /
 </div>
 
 <a href="/register">Registrar</a> /
-<a href="/list">Listar</a>
+<a href="/list">Listar</a> <br>
+<button type="button" name="button" onclick="sync()">SYNC</button>
 
 <script type="text/javascript">
+  function sync (elm) {
+    fetch(getUrl(),{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
+      },
+      body: JSON.stringify(localStorage.getItem('movies'))
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }
 </script>
 
 {% include auth/auth_check.html %}

@@ -47,7 +47,8 @@ permalink: /register
     const data = {
       'id': uuidv4(),
       'name': this.name,
-      'rate': this.rate
+      'rate': this.rate,
+      'timestamp': Date.now()
     }
 
     const storage = JSON.parse(localStorage.getItem('movies'));
@@ -61,19 +62,6 @@ permalink: /register
     localStorage.setItem('movies', JSON.stringify(movies));
 
     this.$refs.moviesform.reset();
-
-    // fetch(getUrl(),{
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*',
-    //     'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
-    //   },
-    //   body: JSON.stringify(data)
-    // })
-    //   .then(response => response.json())
-    //   .then(data => console.log(data));
-
   }
 </script>
 

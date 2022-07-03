@@ -48,7 +48,7 @@ permalink: /view
       },
       deleteMovie (elm) {
         elm.preventDefault();
-        
+
         const result = confirm("Tem certeza?")
 
         if (!result) {
@@ -78,7 +78,8 @@ permalink: /view
     const data = {
       'id': this.id,
       'name': this.name,
-      'rate': this.rate
+      'rate': this.rate,
+      'timestamp': Date.now()
     }
 
     const storage = JSON.parse(localStorage.getItem('movies'));
