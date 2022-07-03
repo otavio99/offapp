@@ -6,3 +6,6 @@ usage_model = ''
 compatibility_flags = []
 workers_dev = true
 compatibility_date = "2022-07-02"
+kv_namespaces = [
+         { binding = "MOVIE_KV", id = "76bdbf936dcd418994097ec5ec36ced5", preview_id = "255256d461c24ebb96b97df7c829e1b4" }
+]

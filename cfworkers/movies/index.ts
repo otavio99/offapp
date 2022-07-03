@@ -73,7 +73,17 @@ async function handleGet(request) {
 async function handlePost(request) {
   const body = await request.json();
 
-  // await TESTKV.put('name', body['name']);
+  JSON.parse(body).forEach((movie) => {
+    const persistMovie = async () => {
+      await MOVIE_KV.put(movie.id, JSON.stringify(movie))
+    }
+    persistMovie();
+  })
+
+  const value = await MOVIE_KV.list();
+  console.log(JSON.stringify(value.keys));
+
+  // await MOVIE_KV.put('name', body['name']);
   return new Response(JSON.stringify(body), {
     headers: {
       ...corsHeaders,
