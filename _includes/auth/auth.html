@@ -31,12 +31,15 @@
       await auth0.getTokenSilently({detailedResponse: true})
       window.location.href = "/index";
     } catch (error) {
+      console.log(error);
       const isAuthenticated = await auth0.isAuthenticated();
       updateUI(isAuthenticated);
     }
 
   }
 
-  checkAuth();
+  window.onload = async () => {
+    checkAuth();
+  }
 
 </script>
