@@ -11,7 +11,7 @@ permalink: /list
         {{ movie.name }} - {{movie.rate}}/10 |
         <a href="#">Editar</a> |
         <a href="#">Atualizar</a> |
-        <a href="#">Excluir</a> |
+        <a :id=movie.id href="#" @click="deleteMovie">Excluir</a> |
       </li>
     </ul>
   </div>
@@ -28,10 +28,16 @@ permalink: /list
       }
     },
     methods: {
+      deleteMovie (elm) {
+        elm.preventDefault();
+        this.movies = [...this.movies.filter(movie => movie.id !== elm.target.id)]
+        localStorage.setItem('movies', JSON.stringify(this.movies));
+      }
     },
     created () {
       this.movies.push(...JSON.parse(localStorage.getItem('movies')))
-      console.log(this.movies[0])
     }
   }).mount('#app')
 </script>
+
+{% include auth/auth_check.html %}
