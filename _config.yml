@@ -9,9 +9,9 @@ domain: dev-qy-iakti.us.auth0.com
 clientid: eEBy63jCkRcKBsKpAfOWit5hg8JgZzpG
 
 dev-url: http://127.0.0.1:8787
-prod-url:
+prod-url: https://offapp.pages.dev
 
-basepathurl: 'offapp'
+basepathurl: ''
 
 # Name of website
 title: ONSS
