@@ -46,8 +46,8 @@ const corsHeaders = {
 
 function handleOptions(request) {
   if (request.headers.get("Origin") !== null &&
-      request.headers.get("Access-Control-Request-Method") !== null &&
-      request.headers.get("Access-Control-Request-Headers") !== null) {
+    request.headers.get("Access-Control-Request-Method") !== null &&
+    request.headers.get("Access-Control-Request-Headers") !== null) {
     // Handle CORS pre-flight request.
     return new Response(null, {
       headers: corsHeaders
