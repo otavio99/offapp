@@ -29,8 +29,19 @@ permalink: /list
     methods: {
       deleteMovie (elm) {
         elm.preventDefault();
+        const movieProxy = this.movies.filter(movie => movie.id === elm.target.dataset.id);
+        const movieParsed = JSON.parse(JSON.stringify(movieProxy[0]));
+        movieParsed.deleted = true;
+
+        //remove from UI
         this.movies = [...this.movies.filter(movie => movie.id !== elm.target.dataset.id)]
-        localStorage.setItem('movies', JSON.stringify(this.movies));
+
+        //store in localStorage as deleted
+        const storage = JSON.parse(localStorage.getItem('movies'));
+        let movies = [];
+        movies = [...storage.filter(movie => movie.id !== elm.target.dataset.id)]
+        movies.push(movieParsed);
+        localStorage.setItem('movies', JSON.stringify(movies));
       },
       view (elm) {
         elm.preventDefault();
@@ -38,7 +49,11 @@ permalink: /list
       }
     },
     created () {
-      this.movies.push(...JSON.parse(localStorage.getItem('movies')))
+      if (localStorage.getItem('movies')) {
+        //load from localStorage but only allow display for the not deleted ones
+        const movies = JSON.parse(localStorage.getItem('movies')).filter(movie => movie.deleted != true);
+        this.movies.push(...movies)
+      }
     }
   }).mount('#app')
 </script>

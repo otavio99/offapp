@@ -63,25 +63,54 @@ function handleOptions(request) {
 }
 
 async function handleGet(request) {
-  return new Response(JSON.stringify("42"), {
+  const value = await MOVIE_KV.list();
+  const persistedMovies = JSON.parse(JSON.stringify(value.keys));
+  let result = [];
+  
+  try {
+
+    for (let i = 0; i < persistedMovies.length; i++) {
+      const key = persistedMovies[i].name;
+      const movie = await MOVIE_KV.get(key);
+      result.push(movie);
+    }
+  } catch (error) {
+    console.log(error)
+  }
+
+  return new Response(JSON.stringify(result), {
     headers: {
       ...corsHeaders,
     }
   })
 }
 
+//check if movie is already persisted, if so, then it should be 'update',
+  // the timestamp of the object should be considered in case of dispute
+// if not, then it should be 'add'
+// if its deleted, then 'delete'
+  // its deleted if exists in kv but not in the resource received (movies)
+  // so all movies should be loaded in the localStorage for the user in the first login
+  // in order to maintain consistency
 async function handlePost(request) {
   const body = await request.json();
-
-  JSON.parse(body).forEach((movie) => {
-    const persistMovie = async () => {
-      await MOVIE_KV.put(movie.id, JSON.stringify(movie))
-    }
-    persistMovie();
-  })
+  const movies = JSON.parse(body);
 
   const value = await MOVIE_KV.list();
-  console.log(JSON.stringify(value.keys));
+  const persistedMovies = JSON.parse(JSON.stringify(value.keys));
+
+  try {
+    // 1 - update
+
+    // JSON.parse(body).forEach((movie) => {
+    //   const persistMovie = async () => {
+    //     await MOVIE_KV.put(movie.id, JSON.stringify(movie))
+    //   }
+    //   persistMovie();
+    // })
+  } catch (error) {
+    console.log(error)
+  }
 
   // await MOVIE_KV.put('name', body['name']);
   return new Response(JSON.stringify(body), {
@@ -90,3 +119,10 @@ async function handlePost(request) {
     }
   })
 }
+
+// async function add(movie) {
+// }
+// async function update(movie) {
+// }
+// async function delete(movie) {
+// }

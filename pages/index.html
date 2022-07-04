@@ -23,7 +23,25 @@ permalink: /
       body: JSON.stringify(localStorage.getItem('movies'))
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => {
+        console.log(data)
+        storeLocally();
+      });
+
+    console.log(await mo.json());
+  }
+
+  async function storeLocally () {
+    const mo = await fetch(getUrl(), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
+      }
+    })
+
+    console.log(mo)
   }
 </script>
 

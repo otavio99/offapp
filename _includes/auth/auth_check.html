@@ -32,6 +32,9 @@
     try {
       const token = await auth0.getTokenSilently({detailedResponse: true});
 
+      if ( token === null ) {
+        logout();
+      }
       if (!checkExp(jwt_decode(token.id_token).exp)) {
         logout();
       }
@@ -52,6 +55,7 @@
 
     } catch (error) {
       console.log(error);
+      alert(error)
       window.location.href = "/login";
     }
   }

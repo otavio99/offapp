@@ -38,6 +38,9 @@ permalink: /view
         id: id,
         name: movie.name,
         rate: movie.rate,
+        created_at: movie.created_at,
+        updated_at: Date.now(),
+        deleted: movie.deleted,
         user: JSON.parse(localStorage.getItem('user'))
       }
     },
@@ -49,6 +52,15 @@ permalink: /view
       deleteMovie (elm) {
         elm.preventDefault();
 
+        const data = {
+          'id': this.id,
+          'name': this.name,
+          'rate': this.rate,
+          'created_at': this.created_at,
+          'updated_at': this.updated_at,
+          'deleted': true
+        }
+
         const result = confirm("Tem certeza?")
 
         if (!result) {
@@ -58,6 +70,7 @@ permalink: /view
         const storage = JSON.parse(localStorage.getItem('movies'));
         let movies = [];
         movies = [...storage.filter(movie => movie.id !== this.id)]
+        movies.push(data);
         localStorage.setItem('movies', JSON.stringify(movies));
         window.location = '/list';
       }
@@ -79,7 +92,9 @@ permalink: /view
       'id': this.id,
       'name': this.name,
       'rate': this.rate,
-      'timestamp': Date.now()
+      'created_at': this.created_at,
+      'updated_at': this.updated_at,
+      'deleted': this.deleted
     }
 
     const storage = JSON.parse(localStorage.getItem('movies'));

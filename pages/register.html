@@ -48,7 +48,9 @@ permalink: /register
       'id': uuidv4(),
       'name': this.name,
       'rate': this.rate,
-      'timestamp': Date.now()
+      'created_at': Date.now(),
+      'updated_at': Date.now(),
+      'deleted': false
     }
 
     const storage = JSON.parse(localStorage.getItem('movies'));
