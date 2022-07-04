@@ -27,8 +27,6 @@ permalink: /
         console.log(data)
         storeLocally();
       });
-
-    console.log(await mo.json());
   }
 
   async function storeLocally () {
@@ -40,8 +38,6 @@ permalink: /
         'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
       }
     })
-
-    console.log(mo)
   }
 </script>
 

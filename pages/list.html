@@ -18,7 +18,7 @@ permalink: /list
 
 
 <script type="module">
-  import { createApp } from 'vue';
+  import { createApp, unref } from 'vue';
 
   createApp({
     data() {
@@ -30,7 +30,7 @@ permalink: /list
       deleteMovie (elm) {
         elm.preventDefault();
         const movieProxy = this.movies.filter(movie => movie.id === elm.target.dataset.id);
-        const movieParsed = JSON.parse(JSON.stringify(movieProxy[0]));
+        const movieParsed = unwrap(movieProxy[0]);
         movieParsed.deleted = true;
 
         //remove from UI

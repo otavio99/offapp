@@ -66,9 +66,8 @@ async function handleGet(request) {
   const value = await MOVIE_KV.list();
   const persistedMovies = JSON.parse(JSON.stringify(value.keys));
   let result = [];
-  
-  try {
 
+  try {
     for (let i = 0; i < persistedMovies.length; i++) {
       const key = persistedMovies[i].name;
       const movie = await MOVIE_KV.get(key);
@@ -95,12 +94,13 @@ async function handleGet(request) {
 async function handlePost(request) {
   const body = await request.json();
   const movies = JSON.parse(body);
-
   const value = await MOVIE_KV.list();
   const persistedMovies = JSON.parse(JSON.stringify(value.keys));
 
   try {
-    // 1 - update
+    // 1 - add
+    //dunno what to do here,
+    add(movies, persistedMovies);
 
     // JSON.parse(body).forEach((movie) => {
     //   const persistMovie = async () => {
@@ -120,8 +120,13 @@ async function handlePost(request) {
   })
 }
 
-// async function add(movie) {
-// }
+async function add(movie, persistedMovies) {
+  for (let i = 0; i < persistedMovies.length; i++) {
+    // const key = persistedMovies[i].name;
+    // const moviePersiste = await MOVIE_KV.get(key);
+    // let moviesFiltered = movies.filter(() => {})
+  }
+}
 // async function update(movie) {
 // }
 // async function delete(movie) {

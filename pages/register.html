@@ -46,6 +46,7 @@ permalink: /register
     let movies = []
     const data = {
       'id': uuidv4(),
+      'user_id': this.user.sub,
       'name': this.name,
       'rate': this.rate,
       'created_at': Date.now(),

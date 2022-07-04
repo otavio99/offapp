@@ -41,6 +41,7 @@ permalink: /view
         created_at: movie.created_at,
         updated_at: Date.now(),
         deleted: movie.deleted,
+        movie: movie,
         user: JSON.parse(localStorage.getItem('user'))
       }
     },
@@ -52,14 +53,8 @@ permalink: /view
       deleteMovie (elm) {
         elm.preventDefault();
 
-        const data = {
-          'id': this.id,
-          'name': this.name,
-          'rate': this.rate,
-          'created_at': this.created_at,
-          'updated_at': this.updated_at,
-          'deleted': true
-        }
+        let data = unwrap(this.movie);
+        data.deleted = true;
 
         const result = confirm("Tem certeza?")
 
