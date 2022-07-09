@@ -28,7 +28,19 @@
 
   const checkAuth = async () => {
     try {
-      await auth0.getTokenSilently({detailedResponse: true})
+
+      const token = await auth0.getTokenSilently({detailedResponse: true});
+
+      if ( token === null ) {
+        console.log("token null");
+        logout();
+      }
+
+      if (!checkExp(jwt_decode(token.id_token).exp)) {
+        console.log("token exp");
+        logout();
+      }
+
       window.location.href = "/index";
     } catch (error) {
       console.log(error);

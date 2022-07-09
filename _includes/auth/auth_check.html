@@ -1,16 +1,4 @@
 <script type="text/javascript">
-  const checkExp = (ts) => {
-    var today = new Date().setHours(0, 0, 0, 0);
-
-    if(today < (ts * 1000)){
-      return true;
-    } else {
-      return false;
-    }
-  }
-</script>
-
-<script type="text/javascript">
   const getredirecturl = (env) => {
     if (env === 'prod') {
       return window.location.origin + "/callback/";
@@ -30,12 +18,15 @@
   const run = async () => {
 
     try {
-      const token = await auth0.getTokenSilently({detailedResponse: true});
+      //get thi from localstorage
+      const token = JSON.parse(localStorage.getItem('auth_token'));
 
       if ( token === null ) {
+        console.log("token null");
         logout();
       }
       if (!checkExp(jwt_decode(token.id_token).exp)) {
+        console.log("token exp");
         logout();
       }
 
@@ -44,9 +35,14 @@
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-          'Authorization': JSON.parse(localStorage.getItem('auth_token'))['id_token']
+          'Authorization': token.id_token
         }
       })
+
+      if (res.status === 401) {
+        alert("Você precisa realizar login");
+        logout();
+      }
 
       if (res.status !== 200) {
         alert("Você não tem permissão para acessar essa aplicação");

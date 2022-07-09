@@ -188,5 +188,14 @@
     const unwrap = (obj) => {
       return JSON.parse(JSON.stringify(obj));
     }
+    const checkExp = (ts) => {
+      var today = new Date().setHours(0, 0, 0, 0);
+
+      if(today < (ts * 1000)){
+        return true;
+      } else {
+        return false;
+      }
+    }
   </script>
 </head>

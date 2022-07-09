@@ -7,6 +7,7 @@ async function handleRequest(request) {
     return handleOptions(request)
   }
 
+  //verify user token before handling the request
   const { authenticate } = require("./../auth.ts");
   const res = await authenticate(request);
   if (!res) {
@@ -18,6 +19,20 @@ async function handleRequest(request) {
       }
     })
   }
+
+  ///remove this if not necessary
+  // try {
+  //   console.log("test")
+  // } catch (error) {
+  //   if (error.message.includes("exp")){
+  //     return new Response(null, {
+  //       status: 401,
+  //       headers: {
+  //         ...corsHeaders,
+  //       }
+  //     })
+  //   }
+  // }
 
   if (request.method === "GET" ) {
     return handleGet(request)
